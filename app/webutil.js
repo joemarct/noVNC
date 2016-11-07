@@ -16,6 +16,7 @@
 
 // Globals defined here
 var WebUtil = {};
+INCLUDE_URI = '/static/vnc/'
 
 /*
  * ------------------------------------------------------
