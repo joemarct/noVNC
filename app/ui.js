@@ -1335,6 +1335,7 @@ var UI;
  * ------v------*/
 
         showVirtualKeyboard: function() {
+            console.log('Virtual keyboard shown!')
             if (!Util.isTouchDevice) return;
 
             var input = document.getElementById('noVNC_keyboardinput');
@@ -1354,6 +1355,7 @@ var UI;
         },
 
         hideVirtualKeyboard: function() {
+            console.log('Virtual keyboard hidden!')
             if (!Util.isTouchDevice) return;
 
             var input = document.getElementById('noVNC_keyboardinput');
