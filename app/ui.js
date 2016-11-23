@@ -220,6 +220,7 @@ var UI;
         },
 
         addTouchSpecificHandlers: function() {
+            /*
             document.getElementById("noVNC_mouse_button0")
                 .addEventListener('click', function () { UI.setMouseButton(1); });
             document.getElementById("noVNC_mouse_button1")
@@ -228,6 +229,7 @@ var UI;
                 .addEventListener('click', function () { UI.setMouseButton(4); });
             document.getElementById("noVNC_mouse_button4")
                 .addEventListener('click', function () { UI.setMouseButton(0); });
+            */
             document.getElementById("noVNC_keyboard_button")
                 .addEventListener('click', UI.toggleVirtualKeyboard);
 
@@ -237,7 +239,8 @@ var UI;
                 .addEventListener('blur', UI.onblurVirtualKeyboard);
             document.getElementById("noVNC_keyboardinput")
                 .addEventListener('submit', function () { return false; });
-
+            
+            /*
             document.getElementById("noVNC_control_bar")
                 .addEventListener('touchstart', UI.activateControlbar);
             document.getElementById("noVNC_control_bar")
@@ -258,6 +261,7 @@ var UI;
                 .addEventListener('touchend', UI.controlbarHandleMouseUp);
             document.getElementById("noVNC_control_bar_handle")
                 .addEventListener('touchmove', UI.dragControlbarHandle);
+            */
 
             window.addEventListener('load', UI.keyboardinputReset);
         },
@@ -1404,7 +1408,7 @@ var UI;
         // This code is required since some browsers on Android are inconsistent in
         // sending keyCodes in the normal keyboard events when using on screen keyboards.
         keyInput: function(event) {
-
+          
             if (!UI.rfb) return;
 
             var newValue = event.target.value;
@@ -1432,7 +1436,7 @@ var UI;
             } else {
                 backspaces = 0;
             }
-
+            
             // Compare the old string with the new to account for
             // text-corrections or other input that modify existing text
             var i;
@@ -1597,7 +1601,10 @@ var UI;
             var optn = document.createElement("OPTION");
             optn.text = text;
             optn.value = value;
-            selectbox.options.add(optn);
+            try {
+              selectbox.options.add(optn);
+            } catch(err){};
+            
         },
 
 /* ------^-------
