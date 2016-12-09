@@ -229,10 +229,10 @@ var UI;
                 .addEventListener('click', function () { UI.setMouseButton(4); });
             document.getElementById("noVNC_mouse_button4")
                 .addEventListener('click', function () { UI.setMouseButton(0); });
-            */
             document.getElementById("noVNC_keyboard_button")
                 .addEventListener('click', UI.toggleVirtualKeyboard);
-
+            */
+            
             document.getElementById("noVNC_keyboardinput")
                 .addEventListener('input', UI.keyInput);
             document.getElementById("noVNC_keyboardinput")
