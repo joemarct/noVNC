@@ -1383,8 +1383,9 @@ var UI;
             //you click keyboard icon it doesnt work.
             UI.hideKeyboardTimeout = setTimeout(function() {
                 UI.keyboardVisible = false;
-                document.getElementById('noVNC_keyboard_button')
-			.classList.remove("noVNC_selected");
+                try {
+                  document.getElementById('noVNC_keyboard_button').classList.remove("noVNC_selected");
+                } catch(err) {};
             },100);
         },
 

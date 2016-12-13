@@ -29,7 +29,7 @@
     if (!defaults) {
         defaults = {};
     }
-
+    
     this._rfb_host = '';
     this._rfb_port = 5900;
     this._rfb_password = '';
@@ -47,12 +47,12 @@
 
     // In preference order
     this._encodings = [
-        ['COPYRECT',             0x01 ],
+        //['COPYRECT',             0x01 ],
         ['TIGHT',                0x07 ],
-        ['TIGHT_PNG',            -260 ],
-        ['HEXTILE',              0x05 ],
-        ['RRE',                  0x02 ],
-        ['RAW',                  0x00 ],
+        //['TIGHT_PNG',            -260 ],
+        //['HEXTILE',              0x05 ],
+        //['RRE',                  0x02 ],
+        //['RAW',                  0x00 ],
 
         // Psuedo-encoding settings
 
@@ -65,11 +65,11 @@
         ['DesktopSize',          -223 ],
         ['last_rect',            -224 ],
         ['Cursor',               -239 ],
-        ['QEMUExtendedKeyEvent', -258 ],
-        ['ExtendedDesktopSize',  -308 ],
-        ['xvp',                  -309 ],
-        ['Fence',                -312 ],
-        ['ContinuousUpdates',    -313 ]
+        //['QEMUExtendedKeyEvent', -258 ],
+        //['ExtendedDesktopSize',  -308 ],
+        //['xvp',                  -309 ],
+        //['Fence',                -312 ],
+        //['ContinuousUpdates',    -313 ]
     ];
 
     this._encHandlers = {};
@@ -2226,6 +2226,9 @@
                     // We have everything, render it
                     this._sock.rQskipBytes(1 + cl_header);  // shift off clt + compact length
                     data = this._sock.rQshiftBytes(cl_data);
+                    console.log('jpeg: ' + data.length);
+                    Util._total_data += data.length;
+                    Util.Debug('Total Data: ' + Util._total_data);
                     this._display.imageRect(this._FBU.x, this._FBU.y, "image/" + cmode, data);
                     break;
                 case "filter":
@@ -2351,7 +2354,9 @@
 
             this._FBU.bytes = pixelslength + masklength;
             if (this._sock.rQwait("cursor encoding", this._FBU.bytes)) { return false; }
-
+            console.log('cursor: ' + this._FBU.bytes)
+            Util._total_data += this._FBU.bytes;
+            Util.Debug('Total Data: ' + Util._total_data);
             this._display.changeCursor(this._sock.rQshiftBytes(pixelslength),
                                        this._sock.rQshiftBytes(masklength),
                                        x, y, w, h);

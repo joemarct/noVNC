@@ -3,6 +3,7 @@
 tests/data_*.js
 utils/rebind.so
 utils/websockify
+websockify/
 node_modules
 build
 lib

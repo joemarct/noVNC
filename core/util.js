@@ -22,6 +22,8 @@ var Util = {};
  */
 
 Util._log_level = 'warn';
+Util._total_data = 0;
+
 Util.init_logging = function (level) {
     "use strict";
     if (typeof level === 'undefined') {
