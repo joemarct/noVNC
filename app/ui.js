@@ -1448,7 +1448,7 @@ var UI;
                     break;
                 }
             }
-
+            
             // Send the key events
             for (i = 0; i < backspaces; i++) {
                 UI.rfb.sendKey(KeyTable.XK_BackSpace);
@@ -1456,7 +1456,7 @@ var UI;
             for (i = newLen - inputs; i < newLen; i++) {
                 UI.rfb.sendKey(newValue.charCodeAt(i));
             }
-
+            
             // Control the text content length in the keyboardinput element
             if (newLen > 2 * UI.defaultKeyboardinputLen) {
                 UI.keyboardinputReset();

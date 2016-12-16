@@ -42,7 +42,7 @@
     this._rfb_auth_scheme = '';
     this._rfb_disconnect_reason = "";
 
-    this._rfb_tightvnc = false;
+    this._rfb_tightvnc = true;
     this._rfb_xvp_ver = 0;
 
     // In preference order
@@ -65,29 +65,29 @@
         ['DesktopSize',          -223 ],
         ['last_rect',            -224 ],
         ['Cursor',               -239 ],
-        //['QEMUExtendedKeyEvent', -258 ],
-        //['ExtendedDesktopSize',  -308 ],
-        //['xvp',                  -309 ],
-        //['Fence',                -312 ],
-        //['ContinuousUpdates',    -313 ]
+        ['QEMUExtendedKeyEvent', -258 ],
+        ['ExtendedDesktopSize',  -308 ],
+        ['xvp',                  -309 ],
+        ['Fence',                -312 ],
+        ['ContinuousUpdates',    -313 ]
     ];
-
+    
     this._encHandlers = {};
     this._encNames = {};
     this._encStats = {};
-
+    
     this._sock = null;              // Websock object
     this._display = null;           // Display object
     this._flushing = false;         // Display flushing state
     this._keyboard = null;          // Keyboard input handler object
     this._mouse = null;             // Mouse input handler object
     this._disconnTimer = null;      // disconnection timer
-
+    
     this._supportsFence = false;
-
+    
     this._supportsContinuousUpdates = false;
     this._enabledContinuousUpdates = false;
-
+    
     // Frame buffer update state
     this._FBU = {
         rects: 0,
