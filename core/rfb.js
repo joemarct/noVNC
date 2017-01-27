@@ -592,7 +592,6 @@
 
         _handleKeyPress: function (keyevent) {
             if (this._view_only) { return; } // View only, skip keyboard, events
-
             var down = (keyevent.type == 'keydown');
             if (this._qemuExtKeyEventSupported) {
                 var scancode = XtScancode[keyevent.code];
@@ -604,6 +603,10 @@
                 }
             } else {
                 keysym = keyevent.keysym.keysym;
+                // Change keysym to 65481 (F12), which is mapped to Tab in the server
+                if (keysym == 65289) {
+                  keysym = 65481
+                }
                 RFB.messages.keyEvent(this._sock, keysym, down);
             }
         },
@@ -1429,6 +1432,7 @@
             buff[offset + 6] = (keysym >> 8);
             buff[offset + 7] = keysym;
 
+            console.log('Keysysm: ', keysym, ' Buff: ', buff);
             sock._sQlen += 8;
             sock.flush();
         },
@@ -2226,9 +2230,14 @@
                     // We have everything, render it
                     this._sock.rQskipBytes(1 + cl_header);  // shift off clt + compact length
                     data = this._sock.rQshiftBytes(cl_data);
+                    
+                    /* 
+                    // Uncomment this block if you want to see logs of bandwidth usage
                     console.log('jpeg: ' + data.length);
                     Util._total_data += data.length;
                     Util.Debug('Total Data: ' + Util._total_data);
+                    */
+                    
                     this._display.imageRect(this._FBU.x, this._FBU.y, "image/" + cmode, data);
                     break;
                 case "filter":
