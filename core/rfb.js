@@ -640,7 +640,12 @@
             if (this._view_only) { return; } // View only, skip mouse events
 
             if (this._rfb_connection_state !== 'connected') { return; }
-            RFB.messages.pointerEvent(this._sock, this._display.absX(x), this._display.absY(y), this._mouse_buttonMask);
+            var absX = this._display.absX(x);
+            var absY = this._display.absY(y);
+            console.log('Click event: ', absX, absY)
+            if (absX > 315 && absX < 372 && absY > 238 && absY < 270) {
+              RFB.messages.pointerEvent(this._sock, this._display.absX(x), this._display.absY(y), this._mouse_buttonMask);
+            }
         },
 
         _handleMouseMove: function (x, y) {
