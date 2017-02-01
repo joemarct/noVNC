@@ -238,8 +238,6 @@
                 break;
             default:
                 this._fail("Server disconnected" + msg);
-                // Reload the page
-                document.location.reload(true);
                 break;
         }
         this._sock.off('close');
