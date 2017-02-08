@@ -57,10 +57,10 @@
         // Psuedo-encoding settings
 
         //['JPEG_quality_lo',     -32 ],
-        ['JPEG_quality_med',      -26 ],
-        //['JPEG_quality_hi',     -23 ],
-        //['compress_lo',        -255 ],
-        ['compress_hi',          -247 ],
+        //['JPEG_quality_med',      -26 ],
+        ['JPEG_quality_hi',     -23 ],
+        ['compress_lo',        -255 ],
+        //['compress_hi',          -247 ],
 
         ['DesktopSize',          -223 ],
         ['last_rect',            -224 ],
@@ -629,7 +629,10 @@
                     // If the viewport didn't actually move, then treat as a mouse click event
                     // Send the button down event here, as the button up event is sent at the end of this function
                     if (!this._viewportHasMoved && !this._view_only) {
-                        RFB.messages.pointerEvent(this._sock, this._display.absX(x), this._display.absY(y), bmask);
+                        // Send RFB message only if it's made by a left click (bmask == 1)
+                        if (bmask == 1) {
+                            RFB.messages.pointerEvent(this._sock, this._display.absX(x), this._display.absY(y), bmask);
+                        }
                     }
                     this._viewportHasMoved = false;
                 }
@@ -640,9 +643,17 @@
             if (this._rfb_connection_state !== 'connected') { return; }
             var absX = this._display.absX(x);
             var absY = this._display.absY(y);
+            /*
             console.log('Click event: ', absX, absY)
             if (absX > 315 && absX < 372 && absY > 238 && absY < 270) {
               RFB.messages.pointerEvent(this._sock, this._display.absX(x), this._display.absY(y), this._mouse_buttonMask);
+            } else {
+              $("#warning").load("/warning/");
+            }
+            */
+            // Send RFB message only if it's made by a left click (bmask == 1)
+            if (this._mouse_buttonMask == 1) {
+                RFB.messages.pointerEvent(this._sock, this._display.absX(x), this._display.absY(y), this._mouse_buttonMask);
             }
         },
 
