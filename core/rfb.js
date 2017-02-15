@@ -58,15 +58,15 @@
 
         //['JPEG_quality_lo',     -32 ],
         //['JPEG_quality_med',      -26 ],
-        ['JPEG_quality_hi',     -23 ],
+        //['JPEG_quality_hi',     -23 ],
         ['compress_lo',        -255 ],
         //['compress_hi',          -247 ],
 
-        ['DesktopSize',          -223 ],
+        //['DesktopSize',          -223 ],
         ['last_rect',            -224 ],
         ['Cursor',               -239 ],
         ['QEMUExtendedKeyEvent', -258 ],
-        ['ExtendedDesktopSize',  -308 ],
+        //['ExtendedDesktopSize',  -308 ],
         ['xvp',                  -309 ],
         ['Fence',                -312 ],
         ['ContinuousUpdates',    -313 ]
@@ -1446,7 +1446,7 @@
             buff[offset + 6] = (keysym >> 8);
             buff[offset + 7] = keysym;
 
-            console.log('Keysysm: ', keysym, ' Buff: ', buff);
+            Util.Debug('Keysysm: ', keysym, ' Buff: ', buff);
             sock._sQlen += 8;
             sock.flush();
         },
@@ -1743,6 +1743,7 @@
 
     RFB.encodingHandlers = {
         RAW: function () {
+            Util.Debug('RAW encoding handler invoked')
             if (this._FBU.lines === 0) {
                 this._FBU.lines = this._FBU.height;
             }
@@ -1769,6 +1770,7 @@
         },
 
         COPYRECT: function () {
+            Util.Debug('COPYRECT encoding handler invoked')
             this._FBU.bytes = 4;
             if (this._sock.rQwait("COPYRECT", 4)) { return false; }
             this._display.copyImage(this._sock.rQshift16(), this._sock.rQshift16(),
@@ -1781,6 +1783,7 @@
         },
 
         RRE: function () {
+            Util.Debug('RRE encoding handler invoked')
             var color;
             if (this._FBU.subrects === 0) {
                 this._FBU.bytes = 4 + this._fb_Bpp;
@@ -1812,6 +1815,7 @@
         },
 
         HEXTILE: function () {
+            Util.Debug('HEXTILE encoding handler invoked')
             var rQ = this._sock.get_rQ();
             var rQi = this._sock.get_rQi();
 
@@ -2194,7 +2198,9 @@
             if (isTightPNG && (cmode === "filter" || cmode === "copy")) {
                 return this._fail("filter/copy received in tightPNG mode");
             }
-
+            
+            Util.Debug('cmode is set to ' + cmode);
+            
             switch (cmode) {
                 // fill use fb_depth because TPIXELs drop the padding byte
                 case "fill":  // TPIXEL
@@ -2276,8 +2282,15 @@
             return true;
         },
 
-        TIGHT: function () { return this._encHandlers.display_tight(false); },
-        TIGHT_PNG: function () { return this._encHandlers.display_tight(true); },
+        TIGHT: function () {
+          Util.Debug('TIGHT encoding handler invoked')
+          return this._encHandlers.display_tight(false); 
+        },
+        
+        TIGHT_PNG: function () { 
+          Util.Debug('TIGHT_PNG encoding handler invoked')
+          return this._encHandlers.display_tight(true); 
+        },
 
         last_rect: function () {
             this._FBU.rects = 0;
@@ -2285,6 +2298,7 @@
         },
 
         handle_FB_resize: function () {
+            Util.Debug('FB Resize applied')
             this._fb_width = this._FBU.width;
             this._fb_height = this._FBU.height;
             this._destBuff = new Uint8Array(this._fb_width * this._fb_height * 4);
@@ -2377,7 +2391,7 @@
 
             this._FBU.bytes = pixelslength + masklength;
             if (this._sock.rQwait("cursor encoding", this._FBU.bytes)) { return false; }
-            console.log('cursor: ' + this._FBU.bytes)
+            Util.Debug('cursor: ' + this._FBU.bytes)
             Util._total_data += this._FBU.bytes;
             Util.Debug('Total Data: ' + Util._total_data);
             this._display.changeCursor(this._sock.rQshiftBytes(pixelslength),

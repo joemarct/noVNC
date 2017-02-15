@@ -636,6 +636,7 @@
         },
 
         autoscale: function (containerWidth, containerHeight, downscaleOnly) {
+            Util.Debug('Autoscale was trigged')
             var targetAspectRatio = containerWidth / containerHeight;
             var fbAspectRatio = this._fb_width / this._fb_height;
 
